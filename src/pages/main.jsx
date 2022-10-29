@@ -34,26 +34,6 @@ const Main = () => {
           <h1>Want to know how?</h1>
         </div>
       </div>
-      
-      {/* <div className="full-screen background-primary">  
-          with Idea
-        
-      
-      
-        
-          with Passion
-       
-      
-      
-        
-          with Interest
-        
-      
-          
-        <div className="center">
-          Want to know how?
-        </div>
-        </div> */}
     </>
   );
 };

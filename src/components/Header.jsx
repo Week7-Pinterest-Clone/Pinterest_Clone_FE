@@ -43,9 +43,9 @@ const Header = ({ isLogin, setIsLogin }) => {
     dispatch(searchPost(e.target.value));
   };
 
-  const toMyPage = () => {
-    console.log("to my page");
-    navigate("/mypage");
+  const toLogout = () => {
+    console.log("logout!");
+    navigate("/");
   };
   return (
     <>
@@ -88,7 +88,7 @@ const Header = ({ isLogin, setIsLogin }) => {
                 <ButtonEle
                   marginRight="8px"
                   backgroundColor="#E60B23"
-                  text="채팅"
+                  text="로그아웃"
                 />
                 {/* <UserImage size="small" toMyPage={toMyPage} /> */}
               </HeaderRight>

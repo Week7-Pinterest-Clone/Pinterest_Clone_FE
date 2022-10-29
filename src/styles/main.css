@@ -10,8 +10,10 @@
     color: #fff;
   }
   
-  /* .background-secondary {
-  } */
+  .background-secondary {
+    background-color: #0fc931;
+    color: #fff;
+  }
   
   .center {
     width: 100%;

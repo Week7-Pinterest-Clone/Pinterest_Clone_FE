@@ -36,14 +36,15 @@ const Login = ({
       axios
         .post("http://pyo00.shop/users/login", loginValue)
         .then((response) => {
-          const { accessToken } = response.data;
-          setCookie("myToken", accessToken);
+          const { accessToken,refreshToken } = response.data;
+          setCookie("accessToken", accessToken);
+          setCookie("refreshToken", refreshToken);
   
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${accessToken}`;
   
-          navigate("/post");
+          navigate("/");
           alert("로그인에 성공하였습니다!");
           setIsLogin(true);
           setIsLoginModalOpen(false);
