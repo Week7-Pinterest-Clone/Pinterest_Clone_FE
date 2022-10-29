@@ -1,0 +1,111 @@
+.modalBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .signup-default-modal {
+    width: 464px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 32px;
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    min-height: initial;
+    box-shadow: rgb(0 0 0 / 45%) 0px 2px 10px;
+  }
+  
+  .modalContainer {
+    min-height: 400px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 32px;
+    display: flex;
+    padding: 20px 10px 24px;
+    box-shadow: rgb(0 0 0 / 45%) 0px 2px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .modal-header {
+    margin-top: 30px;
+  }
+  .login-title {
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    color: rgb(51, 51, 51);
+    font-size: 32px;
+    font-weight: 550;
+    letter-spacing: -2px;
+    line-height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center;
+  }
+  
+  .FormWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 268px;
+  }
+  
+  .registerForm {
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  
+  .registerForm label {
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .or,
+  .toLoginWrap {
+    margin: 10px 0px 10px 0px;
+  }
+  
+  .toLoginBtn {
+    cursor: pointer;
+    margin-left: 8px;
+  }
+  
+  .footer {
+    margin-top: 10px;
+  }
+  
+  .footer div {
+    font-size: 12px;
+    align-self: flex-start;
+    text-align: start;
+    color: rgb(118, 118, 118);
+    margin-bottom: 3px;
+  }
+  
+  .footer div b {
+    margin-left: 10px;
+    font-weight: 700;
+  }
+  
+  .Xicon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+  
