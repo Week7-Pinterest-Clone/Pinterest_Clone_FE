@@ -2,12 +2,15 @@ import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { getCookie } from "../shared/cookie";
 import axios from "axios";
 
-const headers = { Authorization: `Bearer` };
+const headers = {
+  // Authorization: `Bearer` cookie.
+  // refresh
+};
 
 // ** getList ** //
 export const __getList = createAsyncThunk(
   "postingSlice/getList",
-  //postId,title,img 가지고온다.
+  //postId,title,img 가지고온다. acoomment
   async () => {
     const response = await axios.get(`${serverUrl}/posts`, headers);
     return response.data;
@@ -27,12 +30,14 @@ export const __getPostDetail = createAsyncThunk(
 );
 
 // ** uploadList ** //
-export const __uploadList = createAsyncThunk(
-  "postingSlice/uploadList",
+// ** 글쓰기 thunk ** //
+export const __uploadPost = createAsyncThunk(
+  "postingSlice/uploadPost",
   async (new_list) => {
+    console.log(new_list);
     const response = await axios.post(
       //줄바꿈입니다. 이미지
-      `${serverUrl}/api/post/upload`,
+      `${serverUrl}/posts`,
       new_list,
       { headers }
     );
@@ -41,7 +46,7 @@ export const __uploadList = createAsyncThunk(
 );
 
 // ** updatePost ** //
-// ** 글수정기능은없음. ** //
+// ** 수정 thunk ** //
 export const __updatePost = createAsyncThunk(
   "postingSlice/updatePost",
   async (payload) => {
@@ -71,13 +76,16 @@ export const __deletePost = createAsyncThunk(
   }
 );
 
+//async thunk -< reducer  그데이를활용해서 화면에찍음.
+
 export const __postingReducer = createSlice({
   name: "postingList",
   initialState: [],
   reducers: {},
   extraReducers: {
+    //state + payload -> ...payload
     [__getList.fulfilled]: (state, { payload }) => [...payload],
-    [__uploadList.fulfilled]: (state, { payload }) => [...state, payload],
+    [__uploadPost.fulfilled]: (state, { payload }) => [...state, payload],
     [__getPostDetail.fulfilled]: (state, { payload }) => [payload],
     [__deletePost.fulfilled]: (state, { payload }) => [state],
     [__updatePost.fulfilled]: (state, { payload }) => {

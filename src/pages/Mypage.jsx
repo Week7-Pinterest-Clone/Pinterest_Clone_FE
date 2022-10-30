@@ -8,12 +8,14 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "../styles/mypage.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyPosts } from "../store/myPageReducer";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useParams } from "react-router-dom";
 
 import BtnEl from "../elements/BtnEl";
+
+import { __getMyPosts } from "../store/myPageReducer";
 import { __deletePost, __getPostDetail } from "../redux/modules/postingSlice";
 
 const Mypage = () => {
@@ -24,8 +26,9 @@ const Mypage = () => {
   const myposts = useSelector((state) => state.getMyPosts);
 
   const handleEdit = (id) => {
-    console.log(id);
-    //   navigate(`/update/${id}`, { state: post });
+    //하다가 튐.
+    //console.log(id);
+    //navigate(`/update/${id}`, { state: post });
   };
 
   const handleDelete = async (id) => {
@@ -40,11 +43,15 @@ const Mypage = () => {
     }
   };
 
+  //getList받아오면그만인데 굳이 state까지써가면서함
+  //수정나중에.
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
-        const originalPromiseResult = await dispatch(getMyPosts());
-        setMyPost(originalPromiseResult.payload.posts);
+        //dispatch..서버와통신.
+        const originalPromiseResult = await dispatch(__getMyPosts());
+        //img정보도 같이 있어야됨.
+        setMyPost(originalPromiseResult.payload.Post);
         setMyInfo(originalPromiseResult.payload);
       } catch (error) {
         console.log(error);
@@ -80,10 +87,11 @@ const Mypage = () => {
       <div className="post-board">
         <div className="grid-container">
           {/* myPost에 데이터가있을때만 map된다. */}
+          {/* 값을 가져온 애임. getMyPosts. */}
           {myPost &&
             myPost.map((post, idx) => (
               <div key={idx} className="grid-item">
-                <img src={post.imageUrl} alt={post.title} />
+                <img src={post.img} alt={post.title} />
                 <div className="hover-bg">
                   <BtnEl
                     text="저장"
@@ -94,6 +102,7 @@ const Mypage = () => {
                   />
                   <PrivateBtn>
                     <EditIcon
+                      //edit구현을 해봐야됨.
                       onClick={() => handleEdit(post.postId, post)}
                       className="button edit-btn"
                     />
@@ -105,6 +114,7 @@ const Mypage = () => {
                 </div>
               </div>
             ))}
+          {/* 맵종료 */}
         </div>
       </div>
     </MypageStyle>

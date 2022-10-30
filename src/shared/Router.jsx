@@ -21,7 +21,7 @@ function Router() {
             path="/"
             element={<Header isLogin={isLogin} setIsLogin={setIsLogin} />}
           >
-            <Route path="posts" element={<PostDetail />} />
+            <Route path="posts" element={<PostMain />} />
             <Route path="posts/detail/:postId" element={<PostDetail />} />
             <Route path="update/:postId" element={<Update />} />
             <Route path="upload" element={<Upload />} />

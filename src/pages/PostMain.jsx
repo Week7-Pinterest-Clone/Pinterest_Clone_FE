@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Pin from "../elements/Pin";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import styled from "styled-components";
-import "../styles/post.css";
+
 
 //silce
 import { __getList } from "../redux/modules/postingSlice";
@@ -13,7 +13,7 @@ import { __getList } from "../redux/modules/postingSlice";
 //Posting메인화면
 
 const PostMain = () => {
-  const [posts, setPosts] = useState([]); //확인필요.
+  // const [posts, setPosts] = useState([setPosts]); //확인필요.
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.postingReducer);
@@ -30,9 +30,9 @@ const PostMain = () => {
     fetchList();
   }, []);
 
-  useEffect(() => {
-    setPosts(postList);
-  }, [postList]); //????
+  // useEffect(() => {
+  //   setPosts(postList);
+  // }, [postList]); //????
 
   return (
     <Wrapper>

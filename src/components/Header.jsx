@@ -4,12 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPinterest } from "@fortawesome/free-brands-svg-icons";
 
 import UserImage from "../elements/UserImage";
-import Login from "./Login";
 import Modal from "../elements/Modal";
-import { Button } from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import BtnEl from "../elements/BtnEl";
 
 const Header = ({ isLogin, setIsLogin }) => {
@@ -43,7 +40,7 @@ const Header = ({ isLogin, setIsLogin }) => {
   };
 
   const toMyPage = () => {
-    console.log("to my page");
+    //  console.log("to my page");
     navigate("/mypage");
   };
   return (

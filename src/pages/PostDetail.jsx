@@ -5,10 +5,10 @@ import "../styles/postDetail.css";
 import Input from "../elements/Input";
 import UserImage from "../elements/UserImage";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadComment } from "../store/commentReducer";
 
 //slice
-import { __deletePost } from "../redux/modules/postingSlice";
+import { __deletePost, __getPostDetail } from "../redux/modules/postingSlice";
+import { __addComments } from "../redux/modules/commentListSlice";
 
 //Icon Button
 import EditIcon from "@mui/icons-material/Edit";
@@ -16,17 +16,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import BtnEl from "../elements/BtnEl";
 
+// 포스트 작성 페이지.
 const PostDetail = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState("");
   const { id } = useParams();
   const postId = id;
   const dispatch = useDispatch();
+  //useSelector
   const posting = useSelector((state) => state.postingSlice);
-  //posting 에 닉네임
 
+  //posting 에 닉네임
   const handleDelete = async () => {
-    if (window.confirm("삭제됩니다?")) {
+    if (window.confirm("삭제됩니다")) {
       dispatch(__deletePost(postId));
       navigate("/posts");
       alert("게시물이 삭제되었습니다");
@@ -34,16 +36,17 @@ const PostDetail = () => {
   };
 
   const handleEdit = () => {
-    navigate(`/update/${postId}`, { state: post });
+    navigate(`/update/${postId}`, { state: posting });
   };
 
   const submitComment = () => {
-    dispatch(uploadComment({ postId: postId }));
+    dispatch(__addComments({ postId: postId }));
     setContent("");
   };
 
+  //posting[0] -> getPostdetail로 가능한지 확인.
   useEffect(() => {
-    dispatch(getPostDetail(postId));
+    dispatch(__getPostDetail(postId));
   }, []);
 
   return (
@@ -86,25 +89,29 @@ const PostDetail = () => {
                   {/* 화면우측아래 댓글관리 */}
                   <CommentsContents>
                     <CommentCount>
-                      댓글<span>{post[0].existcomments.length}</span>개
+                      {/* 댓글총길이 api? */}
+                      {/* comments/:postId */}
+                      댓글<span>{posting[0].existcomments.length}</span>개
                     </CommentCount>
                     <CommentsLists>
-                      {/* map */}
+                      {/*  */}
                       <UserProfileWrap>
                         <UserImage size="small" />
-                        <span>{post[0].postDetail.nickname}</span>
+                        <span>{posting[0].postDetail.nickname}</span>
                       </UserProfileWrap>
                     </CommentsLists>
-                    {post[0].existcomments.map((a, i) => {
-                      //  console.log(post[0].existcomments[i].commentId);
+
+                    {post[0].existcomments.map((a, commentId) => {
                       return (
-                        <CommentsLists key={i}>
+                        <CommentsLists key={commentId}>
                           <UserProfileWrap style={{ width: "40%" }}>
                             <UserImage size="small" />
-                            <span>{post[0].existcomments[i].nickname}</span>
+                            <span>
+                              {posting[0].existcomments[commentId].nickname}
+                            </span>
                           </UserProfileWrap>
                           <div style={{ marginTop: "10px" }}>
-                            {post[0].existcomments[i].comment}
+                            {posting[0].existcomments[commentId].comment}
                           </div>
                         </CommentsLists>
                       );
@@ -113,6 +120,7 @@ const PostDetail = () => {
 
                   <CommentFill>
                     <UserProfileWrap>
+                      {/* profleImage */}
                       <UserImage />
                     </UserProfileWrap>
                     <CommentInputWrap>

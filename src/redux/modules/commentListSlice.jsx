@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const headers = {
-  Authorization: `Bearer ${}`,
+  // Authorization: `Bearer ${}`,
 };
 
 //thunk middleware
@@ -25,7 +25,7 @@ export const __addComments = createAsyncThunk(
         { comment: commentData.comment },
         { headers }
       );
-     // console.log("댓글요", data);
+      // console.log("댓글요", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -40,9 +40,7 @@ export const __getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log("getcomments", payload);
     try {
-      const { data } = await axios.get(
-        `serverUrl/comments/${payload}`
-      );
+      const { data } = await axios.get(`serverUrl/comments/${payload}`);
       console.log(data);
 
       return thunkAPI.fulfillWithValue(data.data);
@@ -56,7 +54,7 @@ export const __getComments = createAsyncThunk(
 export const __deleteComments = createAsyncThunk(
   "commentList/deleteComments",
   async (commentId, thunkAPI) => {
-   // console.log(commentId);
+    // console.log(commentId);
     try {
       await axios.delete(`serverUrl/comments/${commentId}`, {
         headers,

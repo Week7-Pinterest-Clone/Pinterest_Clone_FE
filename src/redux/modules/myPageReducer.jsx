@@ -3,24 +3,30 @@ import { getCookie } from "../shared/cookie";
 import axios from "axios";
 
 const headers = {
-  Authorization: `Bearer ${}`,
+  // Authorization: `Bearer ${}`,
 };
 
-export const getMyPosts = createAsyncThunk(
-  "myPost/getMyPosts", 
+export const __getMyPosts = createAsyncThunk(
+  "myPost/getMyPosts",
+  //console.log()
   async () => {
-  const response = await axios
-    .get("serverUrl/mypage/", { headers })
-    .catch((error) => console.log(error));
-  return response.data;
-});
+    const response = await axios
+      //get확인.
+      //여기서 이미지정보도 넘어와야되고.
+      .get("serverUrl/users/userId", { headers })
+      .catch((error) => console.log(error));
+    return response.data;
+  }
+);
+
+//edit구현 -> axios.put
 
 export const myPostReducer = createSlice({
   name: "myPost",
   initialState: [],
   reducers: {},
   extraReducers: {
-    [getMyPosts.fulfilled]: (state, { payload }) => {
+    [__getMyPosts.fulfilled]: (state, { payload }) => {
       return [...payload];
     },
   },
