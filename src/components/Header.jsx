@@ -11,6 +11,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import searchReducer, { searchPost } from "../redux/store/searchReducer";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Header = ({ isLogin, setIsLogin }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -43,8 +44,9 @@ const Header = ({ isLogin, setIsLogin }) => {
     dispatch(searchPost(e.target.value));
   };
 
-  const toLogout = () => {
+  const handleLogout = () => {
     console.log("logout!");
+    alert("로그아웃!");
     navigate("/");
   };
   return (
@@ -89,6 +91,7 @@ const Header = ({ isLogin, setIsLogin }) => {
                   marginRight="8px"
                   backgroundColor="#E60B23"
                   text="로그아웃"
+                  handleClick={handleLogout}
                 />
                 {/* <UserImage size="small" toMyPage={toMyPage} /> */}
               </HeaderRight>

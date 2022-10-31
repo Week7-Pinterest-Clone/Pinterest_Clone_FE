@@ -25,7 +25,7 @@ const Login = ({ closeModal, setIsLoginModalOpen, setIsSignupModalOpen }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+        console.log("서버로 회원가입 데이터를 보냅니다.");
         axios.post("http://pyo00.shop/users/signup", signupValue)
           .then((response) => {
             alert(response.data.message);

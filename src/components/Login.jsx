@@ -32,9 +32,8 @@ const Login = ({
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log("서버로 회원가입 데이터를 보냅니다.");
-      axios
-        .post("http://pyo00.shop/users/login", loginValue)
+      console.log("서버로 로그인 요청을 보냅니다.");
+      axios.post("https://pyo00.shop/users/login", loginValue)
         .then((response) => {
           const { accessToken,refreshToken } = response.data;
           setCookie("accessToken", accessToken);
