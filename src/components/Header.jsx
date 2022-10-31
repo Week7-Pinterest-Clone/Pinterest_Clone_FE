@@ -36,7 +36,7 @@ const Header = ({ isLogin, setIsLogin }) => {
   };
 
   const onSignup = (e) => {
-    dispatch(searchPost(e.target.value));
+    // dispatch(searchPost(e.target.value));
   };
 
   const toMyPage = () => {

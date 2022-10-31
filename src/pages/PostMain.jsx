@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import Pin from "../elements/Pin";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import styled from "styled-components";
-
+import Pin from "../elements/Pin";
+import { __getList } from "../redux/modules/postingSlice";
 
 //silce
-import { __getList } from "../redux/modules/postingSlice";
 
 //Posting메인화면
 

@@ -5,7 +5,8 @@ import { TextareaAutosize, useSelect } from "@mui/base";
 import { Avatar, TextField } from "@mui/material";
 import { Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadList, getList, updatePost } from "../store/postReducer";
+
+//수정필요함. Redux.
 
 import { useNavigate, useParams } from "react-router-dom";
 import { __updatePost, __uploadPost } from "../redux/modules/postingSlice";
@@ -136,6 +137,8 @@ const Upload = () => {
   );
 };
 
+export default Upload;
+
 const UploadStyle = styled.div`
   background-color: #efefef;
   box-sizing: border-box;
@@ -254,4 +257,3 @@ const SubmitInput = styled.input`
     background-color: silver;
   }
 `;
-export default Upload;

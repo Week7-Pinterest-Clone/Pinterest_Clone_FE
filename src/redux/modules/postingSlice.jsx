@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import { getCookie } from "../shared/cookie";
+
 import axios from "axios";
 
 const headers = {
@@ -7,12 +7,14 @@ const headers = {
   // refresh
 };
 
+//`${serverUrl}/posts`
+
 // ** getList ** //
 export const __getList = createAsyncThunk(
   "postingSlice/getList",
   //postId,title,img 가지고온다. acoomment
   async () => {
-    const response = await axios.get(`${serverUrl}/posts`, headers);
+    const response = await axios.get("https:12.15.49.12/posts", headers);
     return response.data;
   }
 );
@@ -23,7 +25,7 @@ export const __getPostDetail = createAsyncThunk(
   "postingSlice/getPostDetail",
   async (postId) => {
     const response = await axios
-      .get(`${serverUrl}/posts/${postId}`, { headers })
+      .get("https:12.15.49.12/posts/${postId}", { headers })
       .catch((error) => console.log(error));
     return response.data;
   }
@@ -37,7 +39,7 @@ export const __uploadPost = createAsyncThunk(
     console.log(new_list);
     const response = await axios.post(
       //줄바꿈입니다. 이미지
-      `${serverUrl}/posts`,
+      "https:12.15.49.12/posts",
       new_list,
       { headers }
     );
@@ -51,8 +53,8 @@ export const __updatePost = createAsyncThunk(
   "postingSlice/updatePost",
   async (payload) => {
     const response = await axios.put(
-      `${serverUrl}/${payload.postId}`,
-      param.uploadInfo,
+      "https:12.15.49.12/${payload.postId}",
+      // param.uploadInfo, 이건 확인해봐야한다. put 수정.
       {
         headers: {
           Authorization: ``,
@@ -69,7 +71,7 @@ export const __deletePost = createAsyncThunk(
   "postingSlice/deletePost",
   async (postId) => {
     const response = await axios
-      .delete(`${serverUrl}/posts/${postId}`, { headers })
+      .delete("https:12.15.49.12/posts/${postId}", { headers })
       .catch((error) => console.log(error));
     console.log(response.data);
     return response.data;
@@ -78,12 +80,13 @@ export const __deletePost = createAsyncThunk(
 
 //async thunk -< reducer  그데이를활용해서 화면에찍음.
 
-export const __postingReducer = createSlice({
+export const postingSlice = createSlice({
   name: "postingList",
   initialState: [],
   reducers: {},
   extraReducers: {
     //state + payload -> ...payload
+    //데이터 수정 함수 reducer.
     [__getList.fulfilled]: (state, { payload }) => [...payload],
     [__uploadPost.fulfilled]: (state, { payload }) => [...state, payload],
     [__getPostDetail.fulfilled]: (state, { payload }) => [payload],
@@ -96,3 +99,5 @@ export const __postingReducer = createSlice({
 
 export const {} = postingSlice.actions;
 export default postingSlice.reducer;
+
+//import { getCookie } from "../shared/cookie"; -> 쿠키 사용할때 가져와야지.

@@ -1,8 +1,7 @@
-import { Router } from "react-router-dom";
 import GlobalStyle from "./styles/GlobalStyle";
+import Router from "./shared/Router";
 
 function App() {
-  
   return (
     <>
       <GlobalStyle />

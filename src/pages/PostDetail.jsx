@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import "../styles/postDetail.css";
+
 import Input from "../elements/Input";
 import UserImage from "../elements/UserImage";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,11 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { __deletePost, __getPostDetail } from "../redux/modules/postingSlice";
 import { __addComments } from "../redux/modules/commentListSlice";
 
-//Icon Button
+//Icon Button , css
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import BtnEl from "../elements/BtnEl";
+import "../styles/postDetail.css";
 
 // 포스트 작성 페이지.
 const PostDetail = () => {
@@ -101,7 +102,7 @@ const PostDetail = () => {
                       </UserProfileWrap>
                     </CommentsLists>
 
-                    {post[0].existcomments.map((a, commentId) => {
+                    {posting[0].existcomments.map((a, commentId) => {
                       return (
                         <CommentsLists key={commentId}>
                           <UserProfileWrap style={{ width: "40%" }}>

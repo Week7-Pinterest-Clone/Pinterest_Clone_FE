@@ -1,15 +1,25 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { useState } from "react";
 
-const [isLogin, setIsLogin] = useState(false);
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Header from "../components/Header";
+
+import Mypage from "../pages/Mypage";
+import PostDetail from "../pages/PostDetail";
+import PostMain from "../pages/PostMain";
+import Update from "../pages/Update";
+import Upload from "../pages/Upload";
+import GlobalStyle from "../styles/GlobalStyle";
+import Main from "../pages/Main";
 
 function Router() {
-  useEffect(() => {
-    if (getCookie("myToken")) {
-      setIsLogin(true);
-    }
-  }, []);
+  const [isLogin, setIsLogin] = useState(false);
+
+  //로그인토큰구현시에 동작.
+  // useEffect(() => {
+  //   if (getCookie("myToken")) {
+  //     setIsLogin(true);
+  //   }
+  // }, []);
 
   //페이지설정필요함.
   return (
@@ -21,11 +31,11 @@ function Router() {
             path="/"
             element={<Header isLogin={isLogin} setIsLogin={setIsLogin} />}
           >
-            <Route path="posts" element={<PostMain />} />
-            <Route path="posts/detail/:postId" element={<PostDetail />} />
-            <Route path="update/:postId" element={<Update />} />
-            <Route path="upload" element={<Upload />} />
-            <Route path="mypage" element={<Mypage />} />
+            <Route path="/posts" element={<PostMain />} />
+            <Route path="/posts/detail/:postId" element={<PostDetail />} />
+            <Route path="/update/:postId" element={<Update />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/mypage" element={<Mypage />} />
           </Route>
         ) : (
           <Route

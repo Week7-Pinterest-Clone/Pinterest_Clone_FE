@@ -9,7 +9,7 @@ import { Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 //사용안함
-import { __uploadPost } from "../redux/modules/postingSlice";
+import { __updatePost, __uploadPost } from "../redux/modules/postingSlice";
 
 //게시글수정하기.
 //navigation 모르겟음.
@@ -101,7 +101,7 @@ const Update = (navigation) => {
                     onChange={(e) => {
                       encodeFileToBase64(e.target.files[0]);
                       //
-                      uploadFB(e);
+                      //uploadFB(e);
                     }}
                   />
                 </Label>

@@ -1,9 +1,6 @@
 import { Avatar, Button } from "@mui/material";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "../styles/mypage.css";
@@ -15,8 +12,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import BtnEl from "../elements/BtnEl";
 
-import { __getMyPosts } from "../store/myPageReducer";
 import { __deletePost, __getPostDetail } from "../redux/modules/postingSlice";
+import { __getMyPosts } from "../redux/modules/myPageReducer";
 
 const Mypage = () => {
   const navigate = useNavigate();
@@ -134,3 +131,7 @@ const PrivateBtn = styled.div`
 `;
 
 export default Mypage;
+
+//import ImageList from "@mui/material/ImageList";
+//import ImageListItem from "@mui/material/ImageListItem";
+//import ImageListItemBar from "@mui/material/ImageListItemBar";

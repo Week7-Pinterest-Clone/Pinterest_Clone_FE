@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import { getCookie } from "../shared/cookie";
 import axios from "axios";
 
 const headers = {
@@ -19,7 +18,7 @@ export const __getMyPosts = createAsyncThunk(
   }
 );
 
-//edit구현 -> axios.put
+//edit구현 -> axios.put 해야함.
 
 export const myPostReducer = createSlice({
   name: "myPost",
@@ -33,3 +32,5 @@ export const myPostReducer = createSlice({
 });
 
 export default myPostReducer.reducer;
+
+//import { getCookie } from "../shared/cookie";
