@@ -1,26 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import axios from "axios";
+
 import { Provider } from "react-redux";
-import { CookiesProvider } from "react-cookie";
-import store from "./redux/store/configStore.jsx";
-//import axios from "axios";
+import store from "./redux/store/configStore";
 
-//axios.defaults.baseURL = "http://sparta-jsb.shop/";
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <CookiesProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </CookiesProvider>
+    <App />
   </Provider>
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>
 );
+
+axios.defaults.baseURL = "";
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

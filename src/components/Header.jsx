@@ -1,24 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPinterest } from "@fortawesome/free-brands-svg-icons";
-import ButtonEle from "../elements/ButtonEle";
-//import UserImage from "../elements/UserImage";
-import Login from "./Login";
+
+import UserImage from "../elements/UserImage";
 import Modal from "../elements/Modal";
-import { Button } from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import searchReducer, { searchPost } from "../redux/store/searchReducer";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import BtnEl from "../elements/BtnEl";
 
 const Header = ({ isLogin, setIsLogin }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-  const [word, setWord] = useState("");
+
   const dispatch = useDispatch();
-  const searchedPosts = useSelector((state) => state.searchReducer);
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -44,10 +39,9 @@ const Header = ({ isLogin, setIsLogin }) => {
     dispatch(searchPost(e.target.value));
   };
 
-  const handleLogout = () => {
-    console.log("logout!");
-    alert("로그아웃!");
-    navigate("/");
+  const toMyPage = () => {
+    //  console.log("to my page");
+    navigate("/mypage");
   };
   return (
     <>
@@ -71,7 +65,7 @@ const Header = ({ isLogin, setIsLogin }) => {
                   fontWeight: 700,
                 }}
               >
-                Hang
+                pin
               </b>
               terest
             </span>
@@ -87,24 +81,23 @@ const Header = ({ isLogin, setIsLogin }) => {
                 />
               </HeaderCenter>
               <HeaderRight>
-                <ButtonEle
+                <BtnEl
                   marginRight="8px"
                   backgroundColor="#E60B23"
-                  text="로그아웃"
-                  handleClick={handleLogout}
+                  text="채팅"
                 />
-                {/* <UserImage size="small" toMyPage={toMyPage} /> */}
+                <UserImage size="small" toMyPage={toMyPage} />
               </HeaderRight>
             </>
           ) : (
             <HeaderRight>
-              <ButtonEle
+              <BtnEl
                 marginRight="8px"
                 backgroundColor="#E60B23"
                 text="로그인"
                 handleClick={handleLogin}
               />
-              <ButtonEle
+              <BtnEl
                 backgroundColor="#efefef"
                 color="black"
                 text="가입하기"
@@ -186,3 +179,8 @@ const SearchInput = styled.input`
 `;
 
 export default Header;
+
+//가능하면 구현 - search기능.
+//import searchReducer, { searchPost } from "../store/searchReducer";
+//const [word, setWord] = useState("");
+//const searchedPosts = useSelector((state) => state.searchReducer);
