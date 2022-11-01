@@ -5,18 +5,22 @@ import { useLocation } from "react-router";
 
 import { TextareaAutosize } from "@mui/base";
 import { Avatar, TextField } from "@mui/material";
-import { Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
-//사용안함
+//수정
 import { __updatePost, __uploadPost } from "../redux/modules/postingSlice";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 //게시글수정하기.
 //navigation 모르겟음.
 const Update = (navigation) => {
   const { state } = useLocation(); // postList 데이터받아옴.../postDetail에서.
+  const { register, handleSubmit, watch, setValue } = useForm();
 
-  //정신가출
+  //watch = getter. , setValue = setter.
+  const photo = watch("photo");
+
   const [uploadInfo, setUploadInfo] = useState({
     title: "",
     content: "",
@@ -29,25 +33,34 @@ const Update = (navigation) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //
+  //id값은 이미 상위 detail에서 받아오고 있는 것 같다.
   const { id } = useParams();
   const postId = id;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (uploadInfo.title !== "") {
-      if (uploadInfo.content !== "") {
-        if (uploadInfo.imageUrl !== "") {
-          dispatch(__updatePost({ uploadInfo: uploadInfo }));
-          navigate("/posts");
-          return alert("게시물 수정이 완료되었습니다");
-        }
-        return alert("이미지를 등록해주세요");
-      }
-      return alert("내용을 입력해주세요");
-    }
-    return alert("제목을 입력해주세요");
+  //게시글수정 put/patch요청
+  const onValid = async (payload) => {
+    //id값전달해야한다.
+    const { data } = await axios.put(`http://`, payload, {
+      //headers추가. //내용추가. title,body payload.title..
+    });
+    const image = new FormData();
+    image.append("image", payload);
+
+    const { data: imgUpload } = await axios.put(`http://` + "/images", image, {
+      //headers,
+    });
   };
+
+  useEffect(() => {
+    setValue("photo", []);
+  }, []);
+
+  useEffect(() => {
+    if (photo && photo.length > 0) {
+      const file = photo[0];
+      setPreviewImg(URL.createObjectURL(file));
+    }
+  }, [photo]);
 
   // 이미지 미리보기 bbbb
   const encodeFileToBase64 = (fileBlob) => {
@@ -60,20 +73,6 @@ const Update = (navigation) => {
     });
   };
 
-  // 파이어베이스 -> 서버로수정해야함.
-  // const uploadFB = async (e) => {
-  //   const selectedFile = e.target.files;
-  //   const uploaded_file = await uploadBytes(
-  //     ref(storage, `images/${selectedFile[0].name}`),
-  //     selectedFile[0]
-  //   );
-
-  //   const downloaded_URL = await getDownloadURL(
-  //     ref(storage, `images/${selectedFile[0].name}`)
-  //   );
-  //   setUploadInfo({ ...uploadInfo, imageUrl: downloaded_URL });
-  // };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -84,7 +83,10 @@ const Update = (navigation) => {
     <UploadStyle>
       {state && (
         <FormWrap>
-          <FormStyle encType="multipart/form-data" onSubmit={handleSubmit}>
+          <FormStyle
+            encType="multipart/form-data"
+            onSubmit={handleSubmit(onValid)}
+          >
             <ColumnWrap>
               <ColumnLeft>
                 <Label htmlFor="input-file" className="img_label">
@@ -93,16 +95,11 @@ const Update = (navigation) => {
                     <ImgPreview src={previewImg} alt="preview-img"></ImgPreview>
                   )}
                   <FileInput
-                    multiple
-                    type="file"
+                    {...register("photo")}
                     accept="image/*"
                     id="input-file"
+                    type="file"
                     style={{ display: "none" }}
-                    onChange={(e) => {
-                      encodeFileToBase64(e.target.files[0]);
-                      //
-                      //uploadFB(e);
-                    }}
                   />
                 </Label>
               </ColumnLeft>
@@ -112,10 +109,8 @@ const Update = (navigation) => {
 
                 <TextField
                   placeholder="제목"
-                  name="title"
-                  //확인해봐야됨. state값 확인해야함.
+                  {...register("title")}
                   defaultValue={state[0].postDetail.title}
-                  onChange={handleChange}
                 />
 
                 <UserProfileWrap>
@@ -123,20 +118,20 @@ const Update = (navigation) => {
                   <span>userProfileWrap</span>
                 </UserProfileWrap>
                 {/* TextArea. */}
+
                 <TextareaAutosize
                   maxRows="4"
                   aria-label="maximum height"
                   placeholder="내용"
-                  name="content"
+                  {...register("content")}
                   style={{
                     width: "100%",
                     height: "80%",
                     resize: "none",
                     fontSize: "16px",
                     padding: "16.5px 14px",
-                    border: "#fff",
+                    border: "black",
                   }}
-                  onChange={handleChange}
                   defaultValue={state[0].postDetail.content}
                 />
               </ColumnRight>
@@ -267,3 +262,20 @@ const SubmitInput = styled.input`
   }
 `;
 export default Update;
+
+//
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+//   if (uploadInfo.title !== "") {
+//     if (uploadInfo.content !== "") {
+//       if (uploadInfo.imageUrl !== "") {
+//         dispatch(__updatePost({ uploadInfo: uploadInfo }));
+//         navigate("/posts");
+//         return alert("게시물 수정이 완료되었습니다");
+//       }
+//       return alert("이미지를 등록해주세요");
+//     }
+//     return alert("내용을 입력해주세요");
+//   }
+//   return alert("제목을 입력해주세요");
+// };

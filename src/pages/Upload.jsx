@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { TextareaAutosize, useSelect } from "@mui/base";
+import { TextareaAutosize } from "@mui/base";
 import { Avatar, TextField } from "@mui/material";
-import { Input } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 //수정필요함. Redux.
 
@@ -13,38 +15,43 @@ import { __updatePost, __uploadPost } from "../redux/modules/postingSlice";
 
 //게시글작성하기
 const Upload = () => {
-  const [uploadInfo, setUploadInfo] = useState({
-    title: "",
-    content: "",
-    imageUrl: "",
-  });
   const [previewImg, setPreviewImg] = useState("");
   const { id } = useParams();
-  const postId = id; //???????뭔지모르겟음.
+  const postId = id; //게시글id부여.
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(__uploadPost(uploadInfo));
-    if (uploadInfo.title !== "") {
-      if (uploadInfo.content !== "") {
-        if (uploadInfo.imageUrl !== "") {
-          //이건왜이렇게되잇누
-          //게시글을만들고 -> 게시글id나옴 -> 게시글의 이미지주소를 업로드한다음에 변경. 파이어베이스라서.
-          //dispatch(__updatePost(postId, uploadInfo));
-          navigate("/posts");
-          return alert("게시물 등록이 완료되었습니다");
-        }
-        return alert("이미지를 등록해주세요");
-      }
-      return alert("내용을 입력해주세요");
-    }
-    return alert("제목을 입력해주세요");
+  const { register, handleSubmit, watch, setValue } = useForm();
+
+  //watch = getter. , setValue = setter.
+  const photo = watch("photo");
+
+  const onValid = async (payload) => {
+    //id값전달해야한다.
+    const { data } = await axios.post(`http://`, payload, {
+      //headers추가.
+    });
+    const image = new FormData();
+    image.append("image", payload);
+
+    const { data: imgUpload } = await axios.post(`http://` + "/images", image, {
+      //headers,
+    });
   };
 
-  //img미리보기 들고오는거임.
+  useEffect(() => {
+    setValue("photo", []);
+  }, []);
+
+  useEffect(() => {
+    if (photo && photo.length > 0) {
+      const file = photo[0];
+      setPreviewImg(URL.createObjectURL(file));
+    }
+  }, [photo]);
+
+  //img미리보기
   const encodeFileToBase64 = (fileBlob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
@@ -55,32 +62,13 @@ const Upload = () => {
     });
   };
 
-  //filelist = [1,2,3]
-
-  // 파이어베이스 storage에 이미지 저장 후 url 추출
-  // 서버이용으로 바꾸어야함.
-  // const uploadFB = async (e) => {
-  //   const selectedFile = e.target.files;
-  //   const uploaded_file = await uploadBytes(
-  //     ref(storage, `images/${selectedFile[0].name}`),
-  //     selectedFile[0]
-  //   );
-
-  //   const downloaded_URL = await getDownloadURL(
-  //     ref(storage, `images/${selectedFile[0].name}`)
-  //   );
-  //   setUploadInfo({ ...uploadInfo, imageUrl: downloaded_URL });
-  // };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUploadInfo({ ...uploadInfo, [name]: value });
-  };
-
   return (
     <UploadStyle>
       <FormWrap>
-        <FormStyle encType="multipart/form-data" onSubmit={handleSubmit}>
+        <FormStyle
+          encType="multipart/form-data"
+          onSubmit={handleSubmit(onValid)}
+        >
           <ColumnWrap>
             <ColumnLeft>
               <Label htmlFor="input-file" className="img_label">
@@ -89,16 +77,11 @@ const Upload = () => {
                   <ImgPreview src={previewImg} alt="preview-img"></ImgPreview>
                 )}
                 <FileInput
-                  multiple
-                  type="file"
+                  {...register("photo")}
                   accept="image/*"
                   id="input-file"
+                  type="file"
                   style={{ display: "none" }}
-                  onChange={(e) => {
-                    //브라우저 -> 서버
-                    encodeFileToBase64(e.target.files[0]);
-                    //uploadFB(e);
-                  }}
                 />
               </Label>
             </ColumnLeft>
@@ -106,19 +89,15 @@ const Upload = () => {
             <ColumnRight>
               <SubmitInput type="submit" value="저장" />
 
-              <TextField
-                placeholder="제목"
-                name="title"
-                onChange={handleChange}
-              />
+              <TextField placeholder="제목" {...register("title")} />
 
-              <UserProfileWrap></UserProfileWrap>
+              <UserProfileWrap>11</UserProfileWrap>
 
               <TextareaAutosize
                 maxRows="4"
                 aria-label="maximum height"
                 placeholder="내용"
-                name="content"
+                {...register("content")}
                 style={{
                   width: "100%",
                   height: "80%",
@@ -127,7 +106,6 @@ const Upload = () => {
                   padding: "16.5px 14px",
                   border: "black",
                 }}
-                onChange={handleChange}
               />
             </ColumnRight>
           </ColumnWrap>
@@ -257,3 +235,50 @@ const SubmitInput = styled.input`
     background-color: silver;
   }
 `;
+
+//filelist = [1,2,3]
+
+// 파이어베이스 storage에 이미지 저장 후 url 추출
+// 서버이용으로 바꾸어야함.
+// const uploadFB = async (e) => {
+//   const selectedFile = e.target.files;
+//   const uploaded_file = await uploadBytes(
+//     ref(storage, `images/${selectedFile[0].name}`),
+//     selectedFile[0]
+//   );
+
+//   const downloaded_URL = await getDownloadURL(
+//     ref(storage, `images/${selectedFile[0].name}`)
+//   );
+//   setUploadInfo({ ...uploadInfo, imageUrl: downloaded_URL });
+// };
+
+// const [uploadInfo, setUploadInfo] = useState({
+//   title: "",
+//   content: "",
+//   imageUrl: "",
+// });
+
+// const handleChange = (e) => {
+//   const { name, value } = e.target;
+//   setUploadInfo({ ...uploadInfo, [name]: value });
+// };
+
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+//   dispatch(__uploadPost(uploadInfo));
+//   if (uploadInfo.title !== "") {
+//     if (uploadInfo.content !== "") {
+//       if (uploadInfo.imageUrl !== "") {
+//         //이건왜이렇게되잇누
+//         //게시글을만들고 -> 게시글id나옴 -> 게시글의 이미지주소를 업로드한다음에 변경. 파이어베이스라서.
+//         //dispatch(__updatePost(postId, uploadInfo));
+//         navigate("/posts");
+//         return alert("게시물 등록이 완료되었습니다");
+//       }
+//       return alert("이미지를 등록해주세요");
+//     }
+//     return alert("내용을 입력해주세요");
+//   }
+//   return alert("제목을 입력해주세요");
+// };

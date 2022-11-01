@@ -4,11 +4,10 @@ import ButtonEle from "./ButtonEle";
 import { useNavigate } from "react-router-dom";
 import BtnEl from "./BtnEl";
 
-//Card하나하나의 정보 페이지이다. posting의 하부페이지 props = posting정보.
+//Card하나하나의 정보 페이지 posting의 하부페이지 props = posting정보.
 const Pin = (props) => {
   const { imageUrl } = props;
   const { onClickHandler } = props;
-  const navigate = useNavigate();
 
   const onSave = (e) => {
     if (e.target.innerHTML === "저장") {

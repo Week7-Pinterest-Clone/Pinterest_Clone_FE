@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 
 import axios from "axios";
+import { getCookie } from "../../shared/cookie";
 
 const headers = {
-  // Authorization: `Bearer` cookie.
-  // refresh
+  accessToken: `${getCookie("accessToken")}`,
+  refreshToken: `${getCookie("refreshToken")}`,
 };
-
-//`${serverUrl}/posts`
 
 // ** getList ** //
 export const __getList = createAsyncThunk(

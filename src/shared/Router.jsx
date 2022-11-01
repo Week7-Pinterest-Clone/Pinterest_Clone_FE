@@ -1,8 +1,8 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { getCookie } from "../shared/cookie";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Header from "../components/Header";
 
+import Header from "../components/Header";
 import Mypage from "../pages/Mypage";
 import PostDetail from "../pages/PostDetail";
 import PostMain from "../pages/PostMain";
@@ -10,18 +10,19 @@ import Update from "../pages/Update";
 import Upload from "../pages/Upload";
 import GlobalStyle from "../styles/GlobalStyle";
 import Main from "../pages/Main";
+import axios from "axios";
 
 function Router() {
   const [isLogin, setIsLogin] = useState(false);
 
-  //로그인토큰구현시에 동작.
-  // useEffect(() => {
-  //   if (getCookie("myToken")) {
-  //     setIsLogin(true);
-  //   }
-  // }, []);
+  // 로그인토큰구현시에 동작.
+  useEffect(() => {
+    if (getCookie("accessToken")) {
+      setIsLogin(true);
+    }
+  }, []);
 
-  //페이지설정필요함.
+  //axios.defaults.withCredentials = true;
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -35,14 +36,14 @@ function Router() {
             <Route path="/posts/detail/:postId" element={<PostDetail />} />
             <Route path="/update/:postId" element={<Update />} />
             <Route path="/upload" element={<Upload />} />
-            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/users/:userId" element={<Mypage />} />
           </Route>
         ) : (
           <Route
             path="/"
             element={<Header isLogin={isLogin} setIsLogin={setIsLogin} />}
           >
-            <Route path="/main" element={<Main />}></Route>
+            <Route path="/" element={<Main />}></Route>
           </Route>
         )}
       </Routes>

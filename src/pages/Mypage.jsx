@@ -8,19 +8,26 @@ import { useDispatch, useSelector } from "react-redux";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import BtnEl from "../elements/BtnEl";
 
 import { __deletePost, __getPostDetail } from "../redux/modules/postingSlice";
 import { __getMyPosts } from "../redux/modules/myPageReducer";
+import axios from "axios";
+import { getCookie } from "../shared/cookie";
 
 const Mypage = () => {
   const navigate = useNavigate();
   const [myPost, setMyPost] = useState([]);
   const [myInfo, setMyInfo] = useState([]);
   const dispatch = useDispatch();
-  const myposts = useSelector((state) => state.getMyPosts);
+  const myposts = useSelector((state) => state.mypage);
+
+  const headers = {
+    accessToken: `${getCookie("accessToken")}`,
+    refreshToken: `${getCookie("refreshToken")}`,
+  };
 
   const handleEdit = (id) => {
     //하다가 튐.
@@ -40,13 +47,13 @@ const Mypage = () => {
     }
   };
 
-  //getList받아오면그만인데 굳이 state까지써가면서함
   //수정나중에.
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
-        //dispatch..서버와통신.
+        //dispatch.
         const originalPromiseResult = await dispatch(__getMyPosts());
+        console.log(originalPromiseResult);
         //img정보도 같이 있어야됨.
         setMyPost(originalPromiseResult.payload.Post);
         setMyInfo(originalPromiseResult.payload);
@@ -64,7 +71,7 @@ const Mypage = () => {
         <div className="profile-header">
           <AccountCircleIcon style={{ fontSize: "120px" }} />
           <div className="profile-nickname">{myInfo.nickname}</div>
-          <span className="profile-email">@{myInfo.email}</span>
+          <span className="profile-email">@dsfsd{myInfo.email}</span>
           <div className="action-buttons">
             <BtnEl text="공유" backgroundColor="#e1e1e1" color="black" />
             <BtnEl

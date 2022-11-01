@@ -37,7 +37,7 @@ const PostMain = () => {
     <Wrapper>
       <Container className="main__container">
         {/* postList맵돌려서 카드일자로 전부 정렬. */}
-        {postList.map((pin, i) => {
+        {postList?.map((pin, i) => {
           return (
             <Pin
               key={i}

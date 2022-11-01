@@ -7,7 +7,7 @@ import postingSlice from "../modules/postingSlice";
 const store = configureStore({
   reducer: {
     postingSlice,
-    myPostReducer,
+    mypage: myPostReducer,
     commentListSlice,
   },
 });

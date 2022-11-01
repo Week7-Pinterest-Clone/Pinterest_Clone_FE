@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPinterest } from "@fortawesome/free-brands-svg-icons";
@@ -8,11 +8,11 @@ import Modal from "../elements/Modal";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import BtnEl from "../elements/BtnEl";
+import { removeCookie } from "../shared/cookie";
 
 const Header = ({ isLogin, setIsLogin }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,14 +35,21 @@ const Header = ({ isLogin, setIsLogin }) => {
     }
   };
 
+  const logOut = () => {
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
+    setIsLogin(false);
+    navigate("");
+  };
+
   const onSignup = (e) => {
     // dispatch(searchPost(e.target.value));
   };
 
   const toMyPage = () => {
-    //  console.log("to my page");
-    navigate("/mypage");
+    navigate("/users/:userId");
   };
+
   return (
     <>
       <HeaderStyle>
@@ -54,6 +61,10 @@ const Header = ({ isLogin, setIsLogin }) => {
                 color: "#E60B23",
               }}
               icon={faPinterest}
+              //매인으로감.
+              onClick={() => {
+                navigate("/");
+              }}
             />
             <span
               style={{
@@ -82,9 +93,16 @@ const Header = ({ isLogin, setIsLogin }) => {
               </HeaderCenter>
               <HeaderRight>
                 <BtnEl
+                  marginLeft="10px"
                   marginRight="8px"
                   backgroundColor="#E60B23"
                   text="채팅"
+                />
+                <BtnEl
+                  marginRight="8px"
+                  backgroundColor="#E60B23"
+                  text="로그아웃"
+                  handleClick={logOut}
                 />
                 <UserImage size="small" toMyPage={toMyPage} />
               </HeaderRight>
@@ -134,9 +152,6 @@ const HeaderStyle = styled.div`
   width: 100%;
   z-index: 9999;
   background-color: white;
-  /* position: fixed;
-  top: 0;
-  left: 0; */
 `;
 
 const HeaderWrap = styled.div`
@@ -159,6 +174,7 @@ const HeaderCenter = styled.div`
 `;
 
 const HeaderRight = styled.div`
+  margin-left: 35px;
   margin-right: 20px;
   width: 250px;
   display: flex;

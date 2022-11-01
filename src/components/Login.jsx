@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import Input from "../elements/Input";
-import ButtonEle from "../elements/ButtonEle";
 
-import "../styles/LoginSignup.css";
 import axios from "axios";
-import { getCookie, setCookie } from "../shared/cookie";
+import { setCookie } from "../shared/cookie";
 import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPinterest } from "@fortawesome/free-brands-svg-icons";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import Input from "../elements/Input";
+import ButtonEle from "../elements/ButtonEle";
+import "../styles/LoginSignup.css";
 
 const Login = ({
   setIsLogin,
@@ -34,7 +34,7 @@ const Login = ({
     e.preventDefault();
     console.log("서버로 로그인 요청을 보냅니다.");
     axios
-      .post("https://pyo00.shop/users/login", loginValue)
+      .post("http://pyo00.shop/users/login", loginValue)
       .then((response) => {
         const { accessToken, refreshToken } = response.data;
         setCookie("accessToken", accessToken);
@@ -44,7 +44,7 @@ const Login = ({
           "Authorization"
         ] = `Bearer ${accessToken}`;
 
-        navigate("/");
+        navigate("/posts");
         alert("로그인에 성공하였습니다!");
         setIsLogin(true);
         setIsLoginModalOpen(false);

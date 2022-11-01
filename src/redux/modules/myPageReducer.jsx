@@ -1,19 +1,21 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Cookies } from "react-cookie";
+import { getCookie } from "../../shared/cookie";
 
 const headers = {
-  // Authorization: `Bearer ${}`,
+  accessToken: `${getCookie("accessToken")}`,
+  refreshToken: `${getCookie("refreshToken")}`,
 };
 
 export const __getMyPosts = createAsyncThunk(
   "myPost/getMyPosts",
-  //console.log()
+  //
   async () => {
     const response = await axios
-      //get확인.
-      //여기서 이미지정보도 넘어와야되고.
-      .get("serverUrl/users/userId", { headers })
+      .get("http://pyo00.shop/users/4", { headers })
       .catch((error) => console.log(error));
+    console.log(response);
     return response.data;
   }
 );
@@ -21,7 +23,7 @@ export const __getMyPosts = createAsyncThunk(
 //edit구현 -> axios.put 해야함.
 
 export const myPostReducer = createSlice({
-  name: "myPost",
+  name: "mypage",
   initialState: [],
   reducers: {},
   extraReducers: {
