@@ -34,11 +34,13 @@ const Login = ({
     e.preventDefault();
     console.log("서버로 로그인 요청을 보냅니다.");
     axios
-      .post("http://pyo00.shop/users/login", loginValue)
+      .post("https://pyo00.shop/users/login", loginValue)
       .then((response) => {
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken, userId } = response.data;
         setCookie("accessToken", accessToken);
         setCookie("refreshToken", refreshToken);
+        console.log(userId);
+        localStorage.setItem("userId", userId);
 
         axios.defaults.headers.common[
           "Authorization"
@@ -51,18 +53,6 @@ const Login = ({
       })
       .catch((error) => console.log(error));
   };
-
-  // const onSilentRefresh = () => {
-  //   axios.post("/");
-  // };
-
-  // const onLoginSuccess = (response) => {
-  //   const { accessToken } = response.data;
-
-  //   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-
-  //   setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
-  // };
 
   return (
     <div className="modalBackground">

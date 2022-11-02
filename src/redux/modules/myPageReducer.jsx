@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Cookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 import { getCookie } from "../../shared/cookie";
 
 const headers = {
@@ -8,12 +8,15 @@ const headers = {
   refreshToken: `${getCookie("refreshToken")}`,
 };
 
+const userId = localStorage.getItem("userId");
+
 export const __getMyPosts = createAsyncThunk(
   "myPost/getMyPosts",
   //
   async () => {
+    console.log(userId);
     const response = await axios
-      .get("http://pyo00.shop/users/4", { headers })
+      .get(`https://pyo00.shop/users/${userId}`, { headers })
       .catch((error) => console.log(error));
     console.log(response);
     return response.data;

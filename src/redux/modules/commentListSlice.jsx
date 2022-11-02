@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getCookie } from "../../shared/cookie";
 
 //state
 const initialState = {
@@ -9,7 +10,8 @@ const initialState = {
 };
 
 const headers = {
-  // Authorization: `Bearer ${}`,
+  accessToken: `${getCookie("accessToken")}`,
+  refreshToken: `${getCookie("refreshToken")}`,
 };
 
 //thunk middleware
@@ -22,6 +24,7 @@ export const __addComments = createAsyncThunk(
     try {
       const { data } = await axios.post(
         `serverUrl/comments/${commentData.postId}`,
+        //데이터형식확인필요.
         { comment: commentData.comment },
         { headers }
       );
@@ -40,7 +43,9 @@ export const __getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log("getcomments", payload);
     try {
-      const { data } = await axios.get(`serverUrl/comments/${payload}`);
+      const { data } = await axios.get(
+        `https://pyo00.shop/comments/${payload}`
+      );
       console.log(data);
 
       return thunkAPI.fulfillWithValue(data.data);
@@ -56,7 +61,7 @@ export const __deleteComments = createAsyncThunk(
   async (commentId, thunkAPI) => {
     // console.log(commentId);
     try {
-      await axios.delete(`serverUrl/comments/${commentId}`, {
+      await axios.delete(`https://pyo00.shop/comments/${commentId}`, {
         headers,
       });
       return thunkAPI.fulfillWithValue(commentId);
@@ -72,7 +77,7 @@ export const __editComments = createAsyncThunk(
   async (commentId, thunkAPI) => {
     try {
       //commentId.id = id들 중에 id하나.
-      await axios.put(`serverUrl/comments/${commentId}`, commentId, {
+      await axios.put(`https://pyo00.shop/comments/${commentId}`, commentId, {
         headers,
       });
     } catch (error) {
@@ -94,7 +99,7 @@ const commentListSlice = createSlice({
     },
     [__addComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comment.unshift(action.payload);
+      state.comments.unshift(action.payload);
     },
     [__addComments.rejected]: (state, action) => {
       state.isLoading = false;
@@ -107,7 +112,7 @@ const commentListSlice = createSlice({
     [__getComments.fulfilled]: (state, action) => {
       console.log("action", action.payload);
       state.isLoading = false;
-      state.comment = action.payload;
+      state.comments = action.payload;
     },
     [__getComments.rejected]: (state, action) => {
       state.isLoading = false;
@@ -122,10 +127,10 @@ const commentListSlice = createSlice({
       console.log("action", action.payload);
       state.isLoading = false;
       console.log(action.payload);
-      const target = state.comment.findIndex(
+      const target = state.comments.findIndex(
         (comment) => comment.id === action.payload.id
       );
-      state.comment.splice(target, 1, action.payload);
+      state.comments.splice(target, 1, action.payload);
     },
     [__editComments.rejected]: (state, action) => {
       state.isLoading = false;
@@ -137,10 +142,10 @@ const commentListSlice = createSlice({
     },
     [__deleteComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const target = state.comment.findIndex(
+      const target = state.comments.findIndex(
         (comment) => comment.id === action.payload
       );
-      state.comment.splice(target, 1);
+      state.comments.splice(target, 1);
     },
     [__deleteComments.rejected]: (state, action) => {
       state.isLoading = false;

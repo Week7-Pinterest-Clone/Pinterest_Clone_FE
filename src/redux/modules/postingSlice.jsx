@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-
 import axios from "axios";
 import { getCookie } from "../../shared/cookie";
 
@@ -11,10 +10,11 @@ const headers = {
 // ** getList ** //
 export const __getList = createAsyncThunk(
   "postingSlice/getList",
-  //postId,title,img 가지고온다. acoomment
+
   async () => {
-    const response = await axios.get("https:12.15.49.12/posts", headers);
-    return response.data;
+    const response = await axios.get("https://pyo00.shop/posts", { headers });
+    console.log(response.data);
+    return response.data.data;
   }
 );
 
@@ -24,7 +24,7 @@ export const __getPostDetail = createAsyncThunk(
   "postingSlice/getPostDetail",
   async (postId) => {
     const response = await axios
-      .get("https:12.15.49.12/posts/${postId}", { headers })
+      .get(`https://pyo00.shop/posts/${postId}`, { headers })
       .catch((error) => console.log(error));
     return response.data;
   }
@@ -38,8 +38,27 @@ export const __uploadPost = createAsyncThunk(
     console.log(new_list);
     const response = await axios.post(
       //줄바꿈입니다. 이미지
-      "https:12.15.49.12/posts",
+      "https://pyo00.shop/posts/",
       new_list,
+      { headers }
+    );
+    return response.data;
+  }
+);
+
+//1. 메인페이지 많다. postId + isSaved(false)
+//2. 저장눌리면 -> true로바꿔달라 api요청. put요청.
+//3. 백에서 true로바꼇음.
+//4. 마이페이지와서 백엔드true값만보는api잇는지?
+//5. 그게아니면 map(filter(isSaved==true))
+
+export const __isSaved = createAsyncThunk(
+  "postingSlice/isSaved",
+  async (payload) => {
+    const response = await axios.post(
+      //줄바꿈입니다. 이미지
+      `https://pyo00.shop/save/${payload.postId}`,
+      payload,
       { headers }
     );
     return response.data;
@@ -52,13 +71,9 @@ export const __updatePost = createAsyncThunk(
   "postingSlice/updatePost",
   async (payload) => {
     const response = await axios.put(
-      "https:12.15.49.12/${payload.postId}",
+      `https://pyo00.shop/posts/${payload.postId}`,
       // param.uploadInfo, 이건 확인해봐야한다. put 수정.
-      {
-        headers: {
-          Authorization: ``,
-        },
-      }
+      { headers }
     );
     console.log(response);
     return response;
@@ -69,25 +84,23 @@ export const __updatePost = createAsyncThunk(
 export const __deletePost = createAsyncThunk(
   "postingSlice/deletePost",
   async (postId) => {
+    console.log(postId);
     const response = await axios
-      .delete("https:12.15.49.12/posts/${postId}", { headers })
+      .delete(`https://pyo00.shop/posts/${postId}`, { headers })
       .catch((error) => console.log(error));
     console.log(response.data);
     return response.data;
   }
 );
 
-//async thunk -< reducer  그데이를활용해서 화면에찍음.
-
 export const postingSlice = createSlice({
   name: "postingList",
   initialState: [],
   reducers: {},
   extraReducers: {
-    //state + payload -> ...payload
-    //데이터 수정 함수 reducer.
     [__getList.fulfilled]: (state, { payload }) => [...payload],
     [__uploadPost.fulfilled]: (state, { payload }) => [...state, payload],
+    [__isSaved.fulfilled]: (state, { payload }) => [...payload],
     [__getPostDetail.fulfilled]: (state, { payload }) => [payload],
     [__deletePost.fulfilled]: (state, { payload }) => [state],
     [__updatePost.fulfilled]: (state, { payload }) => {

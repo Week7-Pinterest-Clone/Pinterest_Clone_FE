@@ -6,6 +6,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import styled from "styled-components";
 import Pin from "../elements/Pin";
 import { __getList } from "../redux/modules/postingSlice";
+import "../styles/Postmain.css";
 
 //silce
 
@@ -15,7 +16,9 @@ const PostMain = () => {
   // const [posts, setPosts] = useState([setPosts]); //확인필요.
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const postList = useSelector((state) => state.postingReducer);
+  const postList = useSelector((state) => state.postingSlice);
+
+  console.log(postList);
 
   const toDetailPage = (postId) => {
     navigate(`/posts/${postId}`);
@@ -29,10 +32,6 @@ const PostMain = () => {
     fetchList();
   }, []);
 
-  // useEffect(() => {
-  //   setPosts(postList);
-  // }, [postList]); //????
-
   return (
     <Wrapper>
       <Container className="main__container">
@@ -41,7 +40,7 @@ const PostMain = () => {
           return (
             <Pin
               key={i}
-              imageUrl={pin.imageUrl}
+              imageUrl={pin.img}
               clickEvent={() => {
                 toDetailPage(pin.postId);
               }}
@@ -50,7 +49,7 @@ const PostMain = () => {
         })}
       </Container>
       <AddCircleIcon
-        //포스팅합니다.
+        //포스팅버튼.
         onClick={() => {
           navigate("/upload");
         }}

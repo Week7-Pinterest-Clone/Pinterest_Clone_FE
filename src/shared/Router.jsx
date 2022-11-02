@@ -28,6 +28,7 @@ function Router() {
       <GlobalStyle />
       <Routes>
         {isLogin ? (
+          //main화면으로 돌아갈수가 없다..
           <Route
             path="/"
             element={<Header isLogin={isLogin} setIsLogin={setIsLogin} />}
@@ -36,7 +37,7 @@ function Router() {
             <Route path="/posts/detail/:postId" element={<PostDetail />} />
             <Route path="/update/:postId" element={<Update />} />
             <Route path="/upload" element={<Upload />} />
-            <Route path="/users/:userId" element={<Mypage />} />
+            <Route path="/users/:usersId" element={<Mypage />} />
           </Route>
         ) : (
           <Route

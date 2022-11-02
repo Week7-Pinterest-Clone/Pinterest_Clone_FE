@@ -38,6 +38,7 @@ const Header = ({ isLogin, setIsLogin }) => {
   const logOut = () => {
     removeCookie("accessToken");
     removeCookie("refreshToken");
+    localStorage.clear();
     setIsLogin(false);
     navigate("");
   };
@@ -46,8 +47,12 @@ const Header = ({ isLogin, setIsLogin }) => {
     // dispatch(searchPost(e.target.value));
   };
 
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
+
   const toMyPage = () => {
-    navigate("/users/:userId");
+    navigate(`/users/${userId}`);
+    //navigate(`/users/:userId`); 이것도되는데 왜되는지 요한님한테물어봄. html data주소달라서.
   };
 
   return (

@@ -10,6 +10,7 @@
 }
 
 .content {
+  /* opacity로 hover까매지는거 구현함. */
   opacity: 0;
   width: 100%;
   height: 100%;
@@ -17,12 +18,13 @@
   color: rgb(255, 255, 255, 100);
   position: absolute;
   top: 0;
-  left: 0;
+  left: 50%;
   border-radius: 16px;
   display: flex;
   justify-content: flex-end;
   padding: 10px;
   box-sizing: border-box;
+  transform: translateX(-50%);
 }
 
 .container img {

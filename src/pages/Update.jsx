@@ -37,7 +37,7 @@ const Update = (navigation) => {
   const { id } = useParams();
   const postId = id;
 
-  //게시글수정 put/patch요청
+  //일단 난중에 pass..
   const onValid = async (payload) => {
     //id값전달해야한다.
     const { data } = await axios.put(`http://`, payload, {

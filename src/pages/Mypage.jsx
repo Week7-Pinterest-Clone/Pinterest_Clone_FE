@@ -1,4 +1,4 @@
-import { Avatar, Button } from "@mui/material";
+import { Avatar, Button, getListItemAvatarUtilityClass } from "@mui/material";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import BtnEl from "../elements/BtnEl";
 
@@ -29,20 +29,22 @@ const Mypage = () => {
     refreshToken: `${getCookie("refreshToken")}`,
   };
 
+  console.log(myposts);
+
   const handleEdit = (id) => {
     //하다가 튐.
     //console.log(id);
     //navigate(`/update/${id}`, { state: post });
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (postId) => {
     if (
       window.confirm(
         "해당 게시물을 삭제하시겠습니까?\n삭제된 데이터는 복구할 수 없습니다."
       )
     ) {
-      dispatch(__deletePost(id));
-      navigate("/PostMain");
+      dispatch(__deletePost(postId));
+      navigate("/posts");
       alert("게시물이 삭제되었습니다");
     }
   };
@@ -55,8 +57,9 @@ const Mypage = () => {
         const originalPromiseResult = await dispatch(__getMyPosts());
         console.log(originalPromiseResult);
         //img정보도 같이 있어야됨.
-        setMyPost(originalPromiseResult.payload.Post);
+        setMyPost(originalPromiseResult.payload.post);
         setMyInfo(originalPromiseResult.payload);
+        console.log(setMyPost);
       } catch (error) {
         console.log(error);
       }
@@ -70,8 +73,8 @@ const Mypage = () => {
       {myInfo && (
         <div className="profile-header">
           <AccountCircleIcon style={{ fontSize: "120px" }} />
-          <div className="profile-nickname">{myInfo.nickname}</div>
-          <span className="profile-email">@dsfsd{myInfo.email}</span>
+          <div className="profile-nickname">{myInfo?.nickname}</div>
+          <span className="profile-email">{myInfo?.email}</span>
           <div className="action-buttons">
             <BtnEl text="공유" backgroundColor="#e1e1e1" color="black" />
             <BtnEl
@@ -85,24 +88,24 @@ const Mypage = () => {
       )}
       {/* 생성됨 저장됨. */}
       <div className="action-bar">
-        <BtnEl className="btn">생성됨</BtnEl>
-        <BtnEl className="btn">저장됨</BtnEl>
+        {/* <BtnEl>생성됨</BtnEl>
+        <BtnEl>저장됨</BtnEl> */}
       </div>
       <div className="post-board">
         <div className="grid-container">
           {/* myPost에 데이터가있을때만 map된다. */}
           {/* 값을 가져온 애임. getMyPosts. */}
           {myPost &&
-            myPost.map((post, idx) => (
+            myPost?.map((post, idx) => (
               <div key={idx} className="grid-item">
-                <img src={post.img} alt={post.title} />
+                <img src={post.postImg} alt={post.title} />
                 <div className="hover-bg">
                   <BtnEl
                     text="저장"
                     backgroundColor="#E60B23"
                     position="absolute"
                     widthPer="20%"
-                    handleClick={() => console.log("반갑습니다여러분")}
+                    handleClick={() => console.log("저장어케하누")}
                   />
                   <PrivateBtn>
                     <EditIcon

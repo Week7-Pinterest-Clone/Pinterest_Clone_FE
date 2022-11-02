@@ -7,8 +7,7 @@ import { Avatar, TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-
-//수정필요함. Redux.
+import { getCookie } from "../shared/cookie";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { __updatePost, __uploadPost } from "../redux/modules/postingSlice";
@@ -23,20 +22,32 @@ const Upload = () => {
   const dispatch = useDispatch();
 
   const { register, handleSubmit, watch, setValue } = useForm();
-
   //watch = getter. , setValue = setter.
   const photo = watch("photo");
+  console.log(photo);
 
-  const onValid = async (payload) => {
-    //id값전달해야한다.
-    const { data } = await axios.post(`http://`, payload, {
-      //headers추가.
-    });
-    const image = new FormData();
-    image.append("image", payload);
+  const onValid = async (data) => {
+    const title = data.title;
+    const content = data.content;
+    const image = data.photo[0];
+    const formData = new FormData();
 
-    const { data: imgUpload } = await axios.post(`http://` + "/images", image, {
-      //headers,
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("image", image);
+
+    console.log(data);
+
+    await axios({
+      method: "POST",
+      url: `https://pyo00.shop/posts`,
+      mode: "cors",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        accessToken: `${getCookie("accessToken")}`,
+        refreshToken: `${getCookie("refreshToken")}`,
+      },
+      data: formData,
     });
   };
 
@@ -65,10 +76,7 @@ const Upload = () => {
   return (
     <UploadStyle>
       <FormWrap>
-        <FormStyle
-          encType="multipart/form-data"
-          onSubmit={handleSubmit(onValid)}
-        >
+        <FormStyle onSubmit={handleSubmit(onValid)}>
           <ColumnWrap>
             <ColumnLeft>
               <Label htmlFor="input-file" className="img_label">
@@ -281,4 +289,18 @@ const SubmitInput = styled.input`
 //     return alert("내용을 입력해주세요");
 //   }
 //   return alert("제목을 입력해주세요");
+// };
+
+// const onValid = async (payload) => {
+//   const { data } = await axios.post("https://pyo00.shop/posts", payload, {
+//     headers,
+//   });
+
+//   const image = new FormData();
+//   //name = imgage, value = payload.
+//   image.append("image", payload);
+
+//   const { data: img } = await axios.post("https://pyo00.shop/posts", image, {
+//     headers,
+//   });
 // };
