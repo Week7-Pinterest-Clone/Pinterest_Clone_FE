@@ -9,6 +9,7 @@ const headers = {
 };
 
 const userId = localStorage.getItem("userId");
+const serverUrl = process.env.REACT_APP_API;
 
 export const __getMyPosts = createAsyncThunk(
   "myPost/getMyPosts",
@@ -16,7 +17,7 @@ export const __getMyPosts = createAsyncThunk(
   async () => {
     console.log(userId);
     const response = await axios
-      .get(`${process.env.REACT_APP_API}/users/${userId}`, { headers })
+      .get(`${serverUrl}/users/${userId}`, { headers })
       .catch((error) => console.log(error));
     console.log(response);
     return response.data;

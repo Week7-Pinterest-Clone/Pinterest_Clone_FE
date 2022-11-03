@@ -30,12 +30,13 @@ const Login = ({
   };
 
   const navigate = useNavigate();
+  const serverUrl = process.env.REACT_APP_API;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("서버로 로그인 요청을 보냅니다.");
     axios
-      .post(`${process.env.REACT_APP_API}/users/login`, loginValue)
+      .post(`${serverUrl}/users/login`, loginValue)
       .then((response) => {
         const { accessToken, refreshToken, userId } = response.data;
         setCookie("accessToken", accessToken);

@@ -14,6 +14,8 @@ const headers = {
   refreshToken: `${getCookie("refreshToken")}`,
 };
 
+const serverUrl = process.env.REACT_APP_API;
+
 //thunk middleware
 
 // ** addComment **
@@ -23,7 +25,7 @@ export const __addComments = createAsyncThunk(
     try {
       console.log(commentData);
       const { data } = await axios.post(
-        `${process.env.REACT_APP_API}/comments/${commentData.postId}`,
+        `${serverUrl}/comments/${commentData.postId}`,
 
         { comment: commentData.comments },
         { headers }
@@ -43,9 +45,7 @@ export const __getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log("getcomments", payload);
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/comments/${payload}`
-      );
+      const { data } = await axios.get(`${serverUrl}/comments/${payload}`);
       console.log(data);
 
       return thunkAPI.fulfillWithValue(data.data);
@@ -61,7 +61,7 @@ export const __deleteComments = createAsyncThunk(
   async (commentId, thunkAPI) => {
     console.log("commentId", commentId);
     try {
-      await axios.delete(`${process.env.REACT_APP_API}/comments/${commentId}`, {
+      await axios.delete(`${serverUrl}/comments/${commentId}`, {
         headers,
       });
       return thunkAPI.fulfillWithValue(commentId);
@@ -77,13 +77,9 @@ export const __editComments = createAsyncThunk(
   async (commentId, thunkAPI) => {
     try {
       //commentId.id = id들 중에 id하나.
-      await axios.put(
-        `${process.env.REACT_APP_API}/comments/${commentId}`,
-        commentId,
-        {
-          headers,
-        }
-      );
+      await axios.put(`${serverUrl}/comments/${commentId}`, commentId, {
+        headers,
+      });
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

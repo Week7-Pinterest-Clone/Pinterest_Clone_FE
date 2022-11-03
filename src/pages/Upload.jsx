@@ -36,11 +36,12 @@ const Upload = () => {
     formData.append("content", content);
     formData.append("image", image);
 
+    const serverUrl = process.env.REACT_APP_API;
     console.log(data);
 
     await axios({
       method: "POST",
-      url: `${process.env.REACT_APP_API}/posts`,
+      url: `${serverUrl}/posts`,
       mode: "cors",
       headers: {
         "Content-Type": "multipart/form-data",

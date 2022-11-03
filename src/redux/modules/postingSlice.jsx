@@ -7,12 +7,13 @@ const headers = {
   refreshToken: `${getCookie("refreshToken")}`,
 };
 
+const serverUrl = process.env.REACT_APP_API;
 // ** getList ** //
 export const __getList = createAsyncThunk(
   "postingSlice/getList",
 
   async () => {
-    const response = await axios.get(`${process.env.REACT_APP_API}/posts`, {
+    const response = await axios.get(`${serverUrl}/posts`, {
       headers,
     });
     console.log(response.data);
@@ -27,7 +28,7 @@ export const __getPostDetail = createAsyncThunk(
   async (postId) => {
     console.log(postId);
     const response = await axios
-      .get(`${process.env.REACT_APP_API}/posts/${postId}`, { headers })
+      .get(`${serverUrl}/posts/${postId}`, { headers })
       .catch((error) => console.log(error));
 
     return response.data;
@@ -41,7 +42,7 @@ export const __uploadPost = createAsyncThunk(
     console.log(new_list);
     const response = await axios.post(
       //줄바꿈입니다. 이미지
-      `${process.env.REACT_APP_API}/posts/`,
+      `${serverUrl}/posts/`,
       new_list,
       { headers }
     );
@@ -60,7 +61,7 @@ export const __isSaved = createAsyncThunk(
   async (payload) => {
     console.log(payload);
     const response = await axios.put(
-      `${process.env.REACT_APP_API}/save/${payload}`,
+      `${serverUrl}/save/${payload}`,
       {},
       { headers }
     );

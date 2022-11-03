@@ -9,6 +9,8 @@ import "../styles/LoginSignup.css";
 import axios from "axios";
 import BtnEl from "../elements/BtnEl";
 
+const serverUrl = process.env.REACT_APP_API;
+
 const Login = ({ closeModal, setIsLoginModalOpen, setIsSignupModalOpen }) => {
   const [signupValue, setSignupValue] = useState({
     email: "",
@@ -27,7 +29,7 @@ const Login = ({ closeModal, setIsLoginModalOpen, setIsSignupModalOpen }) => {
     e.preventDefault();
     console.log("서버로 회원가입 데이터를 보냅니다.");
     axios
-      .post(`${process.env.REACT_APP_API}/users/signup`, signupValue)
+      .post(`${serverUrl}/users/signup`, signupValue)
       .then((response) => {
         alert(response.data.message);
         setIsSignupModalOpen(false);
