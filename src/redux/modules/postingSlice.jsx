@@ -33,7 +33,6 @@ export const __getPostDetail = createAsyncThunk(
 );
 
 // ** uploadList ** //
-// ** 글쓰기 thunk ** //
 export const __uploadPost = createAsyncThunk(
   "postingSlice/uploadPost",
   async (new_list) => {
@@ -60,10 +59,11 @@ export const __isSaved = createAsyncThunk(
     console.log(payload);
     const response = await axios.put(
       `https://pyo00.shop/save/${payload}`,
-      //프리티어오류 주의.
+      {},
       { headers }
     );
-    return response;
+    console.log(response);
+    return response.data;
   }
 );
 

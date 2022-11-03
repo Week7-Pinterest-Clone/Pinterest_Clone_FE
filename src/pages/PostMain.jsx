@@ -44,6 +44,7 @@ const PostMain = () => {
               imageUrl={pin.img}
               onClick={() => navigate(`/posts/${pin.postId}`)}
               postId={pin.postId}
+              isSaved={pin.isSave}
             />
           );
         })}

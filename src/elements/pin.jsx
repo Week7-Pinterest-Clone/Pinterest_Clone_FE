@@ -8,12 +8,15 @@ import { useParams } from "react-router-dom";
 
 //Card하나하나의 정보 페이지 posting의 하부페이지 props = posting정보.
 const Pin = (props) => {
-  const { imageUrl, onClick, postId } = props;
+  const { imageUrl, onClick, postId, isSave } = props;
   const dispatch = useDispatch();
 
   const isSaved = useSelector((state) => state.postingSlice);
 
-  const [saved, setSaved] = useState(false);
+  const initialState = {
+    isSave: false,
+  };
+  const [setSave, setIsSave] = useState("");
 
   //  isSaved(false);
   const onSave = (postId) => {
@@ -25,7 +28,7 @@ const Pin = (props) => {
     if (target !== currentTarget) {
       return;
     }
-    setSaved(true);
+    setIsSave(true);
   };
 
   //링크오픈.
@@ -38,7 +41,7 @@ const Pin = (props) => {
     <Wrapper>
       <div className="container" onClick={onClick}>
         <img src={imageUrl} alt="pin" />
-        {saved ? (
+        {setSave ? (
           <div className="content">
             <BtnEl
               backgroundColor="#aaa"
@@ -46,6 +49,7 @@ const Pin = (props) => {
               top="15px"
               right="10px"
               text="저장됨"
+              zIndex="10"
               handleClick={() => onSave(postId)}
               onClick={onChange}
             />
@@ -73,6 +77,7 @@ const Pin = (props) => {
               top="10px"
               right="10px"
               text="저장"
+              zIndex="10"
               handleClick={() => onSave(postId)}
             />
             <BtnEl

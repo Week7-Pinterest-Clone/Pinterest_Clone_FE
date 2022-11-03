@@ -101,7 +101,7 @@ const Upload = () => {
 
               <TextField placeholder="제목" {...register("title")} />
 
-              <UserProfileWrap>11</UserProfileWrap>
+              <UserProfileWrap>내용</UserProfileWrap>
 
               <TextareaAutosize
                 maxRows="4"

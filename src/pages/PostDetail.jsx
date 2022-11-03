@@ -7,7 +7,11 @@ import UserImage from "../elements/UserImage";
 import { useDispatch, useSelector } from "react-redux";
 
 //slice
-import { __deletePost, __getPostDetail } from "../redux/modules/postingSlice";
+import {
+  __deletePost,
+  __getPostDetail,
+  __isSaved,
+} from "../redux/modules/postingSlice";
 import {
   __addComments,
   __deleteComments,
@@ -44,6 +48,11 @@ const PostDetail = () => {
       navigate("/posts");
       alert("게시물이 삭제되었습니다");
     }
+  };
+
+  const onSave = (e) => {
+    console.log(postId);
+    dispatch(__isSaved(postId));
   };
 
   const handleEdit = () => {
@@ -86,7 +95,14 @@ const PostDetail = () => {
                     </PrivateBtn>
                   </LeftBtns>
 
-                  <SubmitInput type="submit" value="저장" />
+                  <SaveBtn
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSave(postId);
+                    }}
+                  >
+                    저장
+                  </SaveBtn>
                 </ButtonContainer>
 
                 <div>
@@ -261,7 +277,7 @@ const LeftBtns = styled.div`
 
 const PrivateBtn = styled.div``;
 
-const SubmitInput = styled.input`
+const SaveBtn = styled.button`
   display: inline-block;
   background-color: rgb(230, 0, 35);
   border: none;
