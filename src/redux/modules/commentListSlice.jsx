@@ -23,7 +23,7 @@ export const __addComments = createAsyncThunk(
     try {
       console.log(commentData);
       const { data } = await axios.post(
-        `https://pyo00.shop/comments/${commentData.postId}`,
+        `${process.env.REACT_APP_API}/comments/${commentData.postId}`,
 
         { comment: commentData.comments },
         { headers }
@@ -44,7 +44,7 @@ export const __getComments = createAsyncThunk(
     console.log("getcomments", payload);
     try {
       const { data } = await axios.get(
-        `https://pyo00.shop/comments/${payload}`
+        `${process.env.REACT_APP_API}/comments/${payload}`
       );
       console.log(data);
 
@@ -61,7 +61,7 @@ export const __deleteComments = createAsyncThunk(
   async (commentId, thunkAPI) => {
     console.log("commentId", commentId);
     try {
-      await axios.delete(`https://pyo00.shop/comments/${commentId}`, {
+      await axios.delete(`${process.env.REACT_APP_API}/comments/${commentId}`, {
         headers,
       });
       return thunkAPI.fulfillWithValue(commentId);
@@ -77,9 +77,13 @@ export const __editComments = createAsyncThunk(
   async (commentId, thunkAPI) => {
     try {
       //commentId.id = id들 중에 id하나.
-      await axios.put(`https://pyo00.shop/comments/${commentId}`, commentId, {
-        headers,
-      });
+      await axios.put(
+        `${process.env.REACT_APP_API}/comments/${commentId}`,
+        commentId,
+        {
+          headers,
+        }
+      );
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

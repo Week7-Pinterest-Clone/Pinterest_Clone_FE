@@ -4,11 +4,10 @@ import styled from "styled-components";
 import BtnEl from "./BtnEl";
 import { __isSaved } from "../redux/modules/postingSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 
 //Card하나하나의 정보 페이지 posting의 하부페이지 props = posting정보.
 const Pin = (props) => {
-  const { imageUrl, onClick, postId, isSave } = props;
+  const { imageUrl, onClick, postId } = props;
   const dispatch = useDispatch();
 
   const isSaved = useSelector((state) => state.postingSlice);
@@ -23,13 +22,13 @@ const Pin = (props) => {
     dispatch(__isSaved(postId));
   };
 
-  const onChange = (e) => {
-    const { target, currentTarget } = e;
-    if (target !== currentTarget) {
-      return;
-    }
-    setIsSave(true);
-  };
+  // const onChange = (e) => {
+  //   const { target, currentTarget } = e;
+  //   if (target !== currentTarget) {
+  //     return;
+  //   }
+  //   setIsSave(true);
+  // };
 
   //링크오픈.
   const toImageLink = () => {
@@ -51,7 +50,7 @@ const Pin = (props) => {
               text="저장됨"
               zIndex="10"
               handleClick={() => onSave(postId)}
-              onClick={onChange}
+              // onClick={onChange}
             />
             <BtnEl
               widthPer="60%"

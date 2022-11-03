@@ -16,7 +16,7 @@ export const __getMyPosts = createAsyncThunk(
   async () => {
     console.log(userId);
     const response = await axios
-      .get(`https://pyo00.shop/users/${userId}`, { headers })
+      .get(`${process.env.REACT_APP_API}/users/${userId}`, { headers })
       .catch((error) => console.log(error));
     console.log(response);
     return response.data;

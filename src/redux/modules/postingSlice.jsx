@@ -12,7 +12,9 @@ export const __getList = createAsyncThunk(
   "postingSlice/getList",
 
   async () => {
-    const response = await axios.get("https://pyo00.shop/posts", { headers });
+    const response = await axios.get(`${process.env.REACT_APP_API}/posts`, {
+      headers,
+    });
     console.log(response.data);
     return response.data.data;
   }
@@ -25,7 +27,7 @@ export const __getPostDetail = createAsyncThunk(
   async (postId) => {
     console.log(postId);
     const response = await axios
-      .get(`https://pyo00.shop/posts/${postId}`, { headers })
+      .get(`${process.env.REACT_APP_API}/posts/${postId}`, { headers })
       .catch((error) => console.log(error));
 
     return response.data;
@@ -39,7 +41,7 @@ export const __uploadPost = createAsyncThunk(
     console.log(new_list);
     const response = await axios.post(
       //줄바꿈입니다. 이미지
-      "https://pyo00.shop/posts/",
+      `${process.env.REACT_APP_API}/posts/`,
       new_list,
       { headers }
     );
@@ -58,7 +60,7 @@ export const __isSaved = createAsyncThunk(
   async (payload) => {
     console.log(payload);
     const response = await axios.put(
-      `https://pyo00.shop/save/${payload}`,
+      `${process.env.REACT_APP_API}/save/${payload}`,
       {},
       { headers }
     );
@@ -73,7 +75,7 @@ export const __updatePost = createAsyncThunk(
   "postingSlice/updatePost",
   async (payload) => {
     const response = await axios.put(
-      `https://pyo00.shop/posts/${payload.postId}`,
+      `${process.env.REACT_APP_API}/posts/${payload.postId}`,
       // param.uploadInfo, 이건 확인해봐야한다. put 수정.
       { headers }
     );
@@ -88,7 +90,7 @@ export const __deletePost = createAsyncThunk(
   async (postId) => {
     console.log(postId);
     const response = await axios
-      .delete(`https://pyo00.shop/posts/${postId}`, { headers })
+      .delete(`${process.env.REACT_APP_API}/posts/${postId}`, { headers })
       .catch((error) => console.log(error));
     console.log(response.data);
     return response.data;

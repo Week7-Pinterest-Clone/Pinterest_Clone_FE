@@ -40,7 +40,7 @@ const Upload = () => {
 
     await axios({
       method: "POST",
-      url: `https://pyo00.shop/posts`,
+      url: `${process.env.REACT_APP_API}/posts`,
       mode: "cors",
       headers: {
         "Content-Type": "multipart/form-data",

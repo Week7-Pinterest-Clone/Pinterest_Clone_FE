@@ -35,7 +35,7 @@ const Login = ({
     e.preventDefault();
     console.log("서버로 로그인 요청을 보냅니다.");
     axios
-      .post("https://pyo00.shop/users/login", loginValue)
+      .post(`${process.env.REACT_APP_API}/users/login`, loginValue)
       .then((response) => {
         const { accessToken, refreshToken, userId } = response.data;
         setCookie("accessToken", accessToken);
