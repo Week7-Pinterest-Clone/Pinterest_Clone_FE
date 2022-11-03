@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Input from "../elements/Input";
-import ButtonEle from "../elements/ButtonEle";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPinterest } from "@fortawesome/free-brands-svg-icons";
@@ -8,6 +7,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 import "../styles/LoginSignup.css";
 import axios from "axios";
+import BtnEl from "../elements/BtnEl";
 
 const Login = ({ closeModal, setIsLoginModalOpen, setIsSignupModalOpen }) => {
   const [signupValue, setSignupValue] = useState({
@@ -81,7 +81,7 @@ const Login = ({ closeModal, setIsLoginModalOpen, setIsSignupModalOpen }) => {
                 />
               </div>
             </form>
-            <ButtonEle
+            <BtnEl
               backgroundColor="#E60B23"
               text="가입하기"
               margin="8px"
@@ -91,7 +91,7 @@ const Login = ({ closeModal, setIsLoginModalOpen, setIsSignupModalOpen }) => {
               handleClick={handleSubmit}
             />
             <span className="or">또는</span>
-            <ButtonEle
+            <BtnEl
               backgroundColor="#F3DC01"
               text="카카오톡으로 계속하기"
               margin="8px"

@@ -15,7 +15,7 @@ import axios from "axios";
 //게시글수정하기.
 //navigation 모르겟음.
 const Update = (navigation) => {
-  const { state } = useLocation(); // postList 데이터받아옴.../postDetail에서.
+  const { state } = useLocation();
   const { register, handleSubmit, watch, setValue } = useForm();
 
   //watch = getter. , setValue = setter.

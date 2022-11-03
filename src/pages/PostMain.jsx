@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import styled from "styled-components";
@@ -16,13 +16,14 @@ const PostMain = () => {
   // const [posts, setPosts] = useState([setPosts]); //확인필요.
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const postList = useSelector((state) => state.postingSlice);
 
   console.log(postList);
 
-  const toDetailPage = (postId) => {
-    navigate(`/posts/${postId}`);
-  };
+  // const toDetailPage = (postId) => {
+  //   navigate(`/posts/${postId}`);
+  // };
 
   useEffect(() => {
     //저장된 리스트 불러옴.
@@ -35,15 +36,14 @@ const PostMain = () => {
   return (
     <Wrapper>
       <Container className="main__container">
-        {/* postList맵돌려서 카드일자로 전부 정렬. */}
+        {/* postList카드정렬. */}
         {postList?.map((pin, i) => {
           return (
             <Pin
               key={i}
               imageUrl={pin.img}
-              clickEvent={() => {
-                toDetailPage(pin.postId);
-              }}
+              onClick={() => navigate(`/posts/${pin.postId}`)}
+              postId={pin.postId}
             />
           );
         })}

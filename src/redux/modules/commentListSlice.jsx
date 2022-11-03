@@ -20,15 +20,15 @@ const headers = {
 export const __addComments = createAsyncThunk(
   "commentList/addComments",
   async (commentData, thunkAPI) => {
-    //console.log(commentData.postId);
     try {
+      console.log(commentData);
       const { data } = await axios.post(
-        `serverUrl/comments/${commentData.postId}`,
-        //데이터형식확인필요.
-        { comment: commentData.comment },
+        `https://pyo00.shop/comments/${commentData.postId}`,
+
+        { comment: commentData.comments },
         { headers }
       );
-      // console.log("댓글요", data);
+      console.log("댓글요", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -59,7 +59,7 @@ export const __getComments = createAsyncThunk(
 export const __deleteComments = createAsyncThunk(
   "commentList/deleteComments",
   async (commentId, thunkAPI) => {
-    // console.log(commentId);
+    console.log("commentId", commentId);
     try {
       await axios.delete(`https://pyo00.shop/comments/${commentId}`, {
         headers,
@@ -143,7 +143,7 @@ const commentListSlice = createSlice({
     [__deleteComments.fulfilled]: (state, action) => {
       state.isLoading = false;
       const target = state.comments.findIndex(
-        (comment) => comment.id === action.payload
+        (comment) => comment.commentId === action.payload.id
       );
       state.comments.splice(target, 1);
     },

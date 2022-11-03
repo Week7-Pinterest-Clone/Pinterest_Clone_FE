@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPinterest } from "@fortawesome/free-brands-svg-icons";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Input from "../elements/Input";
-import ButtonEle from "../elements/ButtonEle";
+
 import "../styles/LoginSignup.css";
+import BtnEl from "../elements/BtnEl";
 
 const Login = ({
   setIsLogin,
@@ -90,7 +91,7 @@ const Login = ({
                 />
               </div>
             </form>
-            <ButtonEle
+            <BtnEl
               backgroundColor="#E60B23"
               text="계속"
               margin="8px"
@@ -100,7 +101,7 @@ const Login = ({
               handleClick={handleSubmit}
             />
             <span className="or">또는</span>
-            <ButtonEle
+            <BtnEl
               backgroundColor="#F3DC01"
               text="카카오톡으로 계속하기"
               margin="8px"

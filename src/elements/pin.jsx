@@ -3,23 +3,29 @@ import styled from "styled-components";
 
 import BtnEl from "./BtnEl";
 import { __isSaved } from "../redux/modules/postingSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 //Card하나하나의 정보 페이지 posting의 하부페이지 props = posting정보.
 const Pin = (props) => {
-  const { imageUrl } = props;
-  const { onClickHandler } = props;
+  const { imageUrl, onClick, postId } = props;
+  const dispatch = useDispatch();
 
   const isSaved = useSelector((state) => state.postingSlice);
+
   const [saved, setSaved] = useState(false);
 
-  const onSave = (e) => {
-    // isSaved:true + postId + 로그인정보?
-    if (e.target === "저장") {
-    } else {
-      e.preventDefault();
+  //  isSaved(false);
+  const onSave = (postId) => {
+    dispatch(__isSaved(postId));
+  };
+
+  const onChange = (e) => {
+    const { target, currentTarget } = e;
+    if (target !== currentTarget) {
       return;
     }
+    setSaved(true);
   };
 
   //링크오픈.
@@ -30,17 +36,18 @@ const Pin = (props) => {
   //삼항연산자 사용 -> 저장 -> 저장됨으로바꿈. querySelector?
   return (
     <Wrapper>
-      <div className="container" onClick={onClickHandler}>
+      <div className="container" onClick={onClick}>
         <img src={imageUrl} alt="pin" />
         {saved ? (
           <div className="content">
             <BtnEl
-              backgroundColor="#E60B23"
+              backgroundColor="#aaa"
               position="absolute"
-              top="10px"
+              top="15px"
               right="10px"
-              text="저장"
-              handleClick={onSave}
+              text="저장됨"
+              handleClick={() => onSave(postId)}
+              onClick={onChange}
             />
             <BtnEl
               widthPer="60%"
@@ -65,10 +72,10 @@ const Pin = (props) => {
               position="absolute"
               top="10px"
               right="10px"
-              text="저장됨"
+              text="저장"
+              handleClick={() => onSave(postId)}
             />
             <BtnEl
-              widthPer="60%"
               backgroundColor="white"
               position="absolute"
               color="#3E3D3B"
@@ -122,3 +129,12 @@ export default Pin;
 // handleClick={toImageLink}
 // />
 //</div>
+
+// const onSave = (e) => {
+//   // isSaved:true + postId + 로그인정보?
+//   if (e.target === "저장") {
+//   } else {
+//     e.stopPropogation();
+//     return;
+//   }
+// };

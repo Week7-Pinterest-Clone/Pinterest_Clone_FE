@@ -23,9 +23,11 @@ export const __getList = createAsyncThunk(
 export const __getPostDetail = createAsyncThunk(
   "postingSlice/getPostDetail",
   async (postId) => {
+    console.log(postId);
     const response = await axios
       .get(`https://pyo00.shop/posts/${postId}`, { headers })
       .catch((error) => console.log(error));
+
     return response.data;
   }
 );
@@ -55,13 +57,13 @@ export const __uploadPost = createAsyncThunk(
 export const __isSaved = createAsyncThunk(
   "postingSlice/isSaved",
   async (payload) => {
-    const response = await axios.post(
-      //줄바꿈입니다. 이미지
-      `https://pyo00.shop/save/${payload.postId}`,
-      payload,
+    console.log(payload);
+    const response = await axios.put(
+      `https://pyo00.shop/save/${payload}`,
+      //프리티어오류 주의.
       { headers }
     );
-    return response.data;
+    return response;
   }
 );
 

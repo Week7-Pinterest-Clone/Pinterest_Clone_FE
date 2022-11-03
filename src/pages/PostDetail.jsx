@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 //slice
 import { __deletePost, __getPostDetail } from "../redux/modules/postingSlice";
-import { __addComments } from "../redux/modules/commentListSlice";
+import {
+  __addComments,
+  __deleteComments,
+  __getComments,
+} from "../redux/modules/commentListSlice";
 
 //Icon Button , css
 import EditIcon from "@mui/icons-material/Edit";
@@ -19,15 +23,21 @@ import "../styles/postDetail.css";
 
 // 포스트 작성 페이지.
 const PostDetail = () => {
+  const params = useParams();
+  const postId = Number(params.postId);
   const navigate = useNavigate();
-  const [content, setContent] = useState("");
-  const { id } = useParams();
-  const postId = id;
+  const initialState = {
+    comments: "",
+    postId: +postId,
+  };
+  const [comments, setComments] = useState(initialState);
+
   const dispatch = useDispatch();
   //useSelector
   const posting = useSelector((state) => state.postingSlice);
+  //const cId = posting[0].comment[0].commentId;
 
-  //posting 에 닉네임
+  //삭제잘됨.
   const handleDelete = async () => {
     if (window.confirm("삭제됩니다")) {
       dispatch(__deletePost(postId));
@@ -41,24 +51,28 @@ const PostDetail = () => {
   };
 
   const submitComment = () => {
-    dispatch(__addComments({ postId: postId }));
-    setContent("");
+    dispatch(__addComments({ ...comments }));
   };
 
-  //posting[0] -> getPostdetail로 가능한지 확인.
+  const deleteComment = (commentId) => {
+    console.log(commentId);
+    dispatch(__deleteComments(commentId));
+  };
+  //posting[0] -> getPostdetail
+  //params로 postId받아와서 get의 인자로 postId넘겨서 확인
   useEffect(() => {
     dispatch(__getPostDetail(postId));
   }, []);
 
   return (
     <PostDetailStyle>
-      {posting[0]?.title !== undefined ? (
+      {posting.length ? (
         <FormWrap>
           <FormStyle encType="multipart/form-data">
             <ColumnWrap>
               <ColumnLeft>
                 <Label htmlFor="input-file" className="img_label">
-                  <ImageTag src={posting[0].imageUrl} alt="image" />
+                  <ImageTag src={posting[0].img} alt="image" />
                 </Label>
               </ColumnLeft>
 
@@ -92,28 +106,36 @@ const PostDetail = () => {
                     <CommentCount>
                       {/* 댓글총길이 api? */}
                       {/* comments/:postId */}
-                      댓글<span>{posting[0].existcomments.length}</span>개
+                      {/* 댓글길이확인 */}
+                      댓글<span>{posting.comment}</span>
                     </CommentCount>
                     <CommentsLists>
-                      {/*  */}
                       <UserProfileWrap>
                         <UserImage size="small" />
-                        <span>{posting[0].postDetail.nickname}</span>
+                        <span>{posting[0].nickname}</span>
                       </UserProfileWrap>
                     </CommentsLists>
 
-                    {posting[0].existcomments.map((a, commentId) => {
+                    {/* 댓글있으면 리스트불러옴. */}
+                    {/* userId 1번이찍힘. */}
+                    {posting[0].comment?.map((post) => {
                       return (
-                        <CommentsLists key={commentId}>
+                        <CommentsLists key={post.commentId}>
                           <UserProfileWrap style={{ width: "40%" }}>
                             <UserImage size="small" />
-                            <span>
-                              {posting[0].existcomments[commentId].nickname}
-                            </span>
+                            <span>{post.nickname}</span>
                           </UserProfileWrap>
                           <div style={{ marginTop: "10px" }}>
-                            {posting[0].existcomments[commentId].comment}
+                            {post.comment}
                           </div>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              deleteComment(post.commentId);
+                            }}
+                          >
+                            삭제
+                          </button>
                         </CommentsLists>
                       );
                     })}
@@ -126,12 +148,15 @@ const PostDetail = () => {
                     </UserProfileWrap>
                     <CommentInputWrap>
                       <Input
-                        value={content}
+                        value={comments.comments}
                         type="text"
                         placeholder="댓글 추가"
                         widthPer="100"
                         handleChange={(e) => {
-                          setContent(e.target.value);
+                          setComments({
+                            ...comments,
+                            comments: e.target.value,
+                          });
                         }}
                       ></Input>
                     </CommentInputWrap>

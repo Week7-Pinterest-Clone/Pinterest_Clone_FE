@@ -49,6 +49,8 @@ const Upload = () => {
       },
       data: formData,
     });
+
+    navigate("/posts");
   };
 
   useEffect(() => {
