@@ -8,22 +8,22 @@ const Main = () => {
     <>
       <div className="full-screen background-primary">
         <div className="center">
-          <h1>이미지넣고싶은데</h1>
+          <h1></h1>
         </div>
       </div>
       <div className="full-screen background-secondary">
         <div className="center">
-          <h1>이미지넣고싶은데</h1>
+          <h1></h1>
         </div>
       </div>
-      <div className="full-screen background-primary">
+      <div className="full-screen background-third">
         <div className="center">
-          <h1>이미지넣고싶은데</h1>
+          <h1></h1>
         </div>
       </div>
-      <div className="full-screen background-secondary">
+      <div className="full-screen background-fourth">
         <div className="center">
-          <h1>이미지넣고싶은데</h1>
+          <h1></h1>
         </div>
       </div>
     </>

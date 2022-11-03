@@ -52,7 +52,6 @@ const Header = ({ isLogin, setIsLogin }) => {
 
   const toMyPage = () => {
     navigate(`/users/${userId}`);
-    //navigate(`/users/:userId`); 이것도되는데 왜되는지 요한님한테물어봄. html data주소달라서.
   };
 
   return (
@@ -66,9 +65,8 @@ const Header = ({ isLogin, setIsLogin }) => {
                 color: "#E60B23",
               }}
               icon={faPinterest}
-              //매인으로감.
               onClick={() => {
-                navigate("/");
+                navigate("/posts");
               }}
             />
             <span

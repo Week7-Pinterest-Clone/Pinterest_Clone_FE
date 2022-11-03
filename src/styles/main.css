@@ -6,13 +6,27 @@
 }
 
 .background-primary {
-  background-color: #f23e02;
-  color: #fff;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../assets/yousef-espanioly-DA_tplYgTow-unsplash.jpg");
+  background-size: cover;
 }
 
 .background-secondary {
-  background-color: #0fc931;
-  color: #fff;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../assets/catherina-schurmann-lWsEVGL0Scg-unsplash.jpg");
+  background-size: cover;
+}
+
+.background-third {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../assets/andriyko-podilnyk-RCfi7vgJjUY-unsplash.jpg");
+  background-size: cover;
+}
+
+.background-fourth {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("../assets/image04.avif");
+  background-size: cover;
 }
 
 .center {
